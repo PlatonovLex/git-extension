@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:gitstatus="http://www.mulesoft.org/schema/mule/gitstatus" xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" 
+		xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-http://www.mulesoft.org/schema/mule/gitstatus http://www.mulesoft.org/schema/mule/gitstatus/current/mule-gitstatus.xsd">
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="c2d8de8c-6553-4b94-a42a-b462590129c9" >
 		<http:listener-connection host="0.0.0.0" port="8082" />
 	</http:listener-config>
-	<gitstatus:config name="GitStatus_Config" doc:name="GitStatus Config" doc:id="472489c0-13eb-4c7f-868a-274c2dd97501" configId="123" >
-		<gitstatus:connection requiredParameter="123222" />
-	</gitstatus:config>
-	<flow name="git-extensionFlow1" doc:id="049513c8-d242-4f69-a469-942ae45704d3" >
-		<http:listener doc:name="Listener" doc:id="6df4891b-a94d-468f-9a9f-b342482d8e6b" config-ref="HTTP_Listener_config" path="/info"/>
-		<gitstatus:retrieve-info doc:name="Retrieve info" doc:id="c0263b66-62e9-4b11-970b-08b3155e995b" config-ref="GitStatus_Config"/>
-	</flow>
-	<flow name="git-extensionFlow" doc:id="0345a592-edcc-40f4-b75e-6023afe729a3" >
-		<http:listener doc:name="Listener" doc:id="ba305b7d-24d0-4dbd-a6b0-e582db8aad4d" config-ref="HTTP_Listener_config" path="/hi"/>
-		<gitstatus:say-hi doc:name="Say hi" doc:id="dd54090c-717b-41d9-973a-0b1b44b1fff4" person="Aleks"/>
+	<flow name="versionFlow" doc:id="6a358c69-be3e-477a-b5f7-0bf4c1d688a8" >
+		<http:listener doc:name="Listener" doc:id="a758b654-2475-4d4a-8e8c-6215d75607d2" config-ref="HTTP_Listener_config" path="/version"/>
+		<ee:transform doc:name="Transform Message" doc:id="391e0096-ee69-42dc-b56c-3f03b6572174">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+readUrl("classpath://git.json", "application/json")]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>

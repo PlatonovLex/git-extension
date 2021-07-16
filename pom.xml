@@ -35,7 +35,7 @@
             <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
-                <version>4.0.4</version>
+                <version>4.0.0</version>
                 <executions>
                     <execution>
                         <id>get-the-git-infos</id>
@@ -51,7 +51,12 @@
                     </execution>
                 </executions>
                 <configuration>
+                	<verbose>true</verbose>
                     <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                    <generateGitPropertiesFilename>
+                        ${project.basedir}/src/main/resources/git.json
+                    </generateGitPropertiesFilename>
+                    <format>json</format>
                 </configuration>
             </plugin>
 		</plugins>
@@ -68,12 +73,6 @@
             <groupId>org.mule.connectors</groupId>
             <artifactId>mule-sockets-connector</artifactId>
             <version>1.2.1</version>
-            <classifier>mule-plugin</classifier>
-        </dependency>
-		<dependency>
-            <groupId>ru.leadex.mule.git.status</groupId>
-            <artifactId>mule-basic-extension</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
             <classifier>mule-plugin</classifier>
         </dependency>
     </dependencies>
