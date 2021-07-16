@@ -2,7 +2,8 @@
 # Project ignore
 # ------------------------------------------------------------------------------ #
 src/main/resources/git.json
-
+.idea
+git-extension.iml
 
 # ------------------------------------------------------------------------------ #
 # Java defaults (https://github.com/github/gitignore/blob/master/Java.gitignore) #
